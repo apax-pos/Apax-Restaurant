@@ -1,0 +1,175 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700;1,900&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --background: #fff;
+    --foreground: #000;
+    --apax-green-light: #ECF1EB;
+    --apax-green: #70B56A;
+    --apax-green-10: #70b56a18;
+    --apax-border-green: #DCE7DB;
+    --apax-text: #6b7280;
+    --apax-gray: #f3f4f6;
+    --apax-ring: #000;
+    --apax-bg-gray: #f3f4f6;
+    --apax-card-bg: #f3f4f6;
+    --apax-button-hover: #e5e6e8;
+    --apax-green-button-hover: #629c5d;
+    --apax-red: #f87171;
+    --apax-red-hover: #fee2e2;
+    --apax-yellow: #f4d6a1;
+    --apax-bg-yellow: #a23ca6;
+    --apax-yellow-hover: #e1920a;
+    --apax-checkbox: #e5e6e8;
+
+    --apax-green-dark: #243922;
+    --apax-border-green-light: #dce7db;
+    --apax-superadmin-widget-bg: #bedc74;
+    --apax-superadmin-text-green: #387f39;
+    --apax-superadmin-text-black: #444444;
+
+    --scroll-wrapper-start: rgba(255, 255, 255, 1);
+    --scroll-wrapper-end: rgba(255, 255, 255, 0);
+
+    /* Legacy Restro tokens (same as Apax — keeps colors if an old CSS/JS bundle is cached) */
+    --restro-green-light: var(--apax-green-light);
+    --restro-green: var(--apax-green);
+    --restro-green-10: var(--apax-green-10);
+    --restro-border-green: var(--apax-border-green);
+    --restro-text: var(--apax-text);
+    --restro-gray: var(--apax-gray);
+    --restro-ring: var(--apax-ring);
+    --restro-bg-gray: var(--apax-bg-gray);
+    --restro-card-bg: var(--apax-card-bg);
+    --restro-button-hover: var(--apax-button-hover);
+    --restro-green-button-hover: var(--apax-green-button-hover);
+    --restro-red: var(--apax-red);
+    --restro-red-hover: var(--apax-red-hover);
+    --restro-yellow: var(--apax-yellow);
+    --restro-bg-yellow: var(--apax-bg-yellow);
+    --restro-yellow-hover: var(--apax-yellow-hover);
+    --restro-checkbox: var(--apax-checkbox);
+    --restro-green-dark: var(--apax-green-dark);
+    --restro-border-green-light: var(--apax-border-green-light);
+    --restro-superadmin-widget-bg: var(--apax-superadmin-widget-bg);
+    --restro-superadmin-text-green: var(--apax-superadmin-text-green);
+    --restro-superadmin-text-black: var(--apax-superadmin-text-black);
+}
+
+.dark {
+    --background: #000;
+    --foreground: #fff;
+    --apax-green-light: #121212;
+    --apax-green: #2e7746;
+    --apax-green-10: #2e774625;
+    --apax-border-green: #333333;
+    --apax-text: #F0F0F0;
+    --apax-gray: #232323;
+    --apax-ring: #888;
+    --apax-bg-gray: #242526;
+    --apax-card-bg: #121212;
+    --apax-button-hover: #353535;
+    --apax-green-button-hover: #205331;
+    --apax-red: #dc2626;
+    --apax-red-hover: #fecaca;
+    --apax-yellow: #f0a523;
+    --apax-bg-yellow: #fef9c3;
+    --apax-yellow-hover: #dbb743;
+    --apax-checkbox: #242526;
+
+    --apax-green-dark: #333333;
+    --apax-border-green-light: #222222;
+    --apax-superadmin-widget-bg: #bedc74;
+    --apax-superadmin-text-green: #387f39;
+    --apax-superadmin-text-black: #444444;
+
+    --scroll-wrapper-start: rgba(0, 0, 0, 1);
+    --scroll-wrapper-end: rgba(0, 0, 0, 0);
+
+    --restro-green-light: var(--apax-green-light);
+    --restro-green: var(--apax-green);
+    --restro-green-10: var(--apax-green-10);
+    --restro-border-green: var(--apax-border-green);
+    --restro-text: var(--apax-text);
+    --restro-gray: var(--apax-gray);
+    --restro-ring: var(--apax-ring);
+    --restro-bg-gray: var(--apax-bg-gray);
+    --restro-card-bg: var(--apax-card-bg);
+    --restro-button-hover: var(--apax-button-hover);
+    --restro-green-button-hover: var(--apax-green-button-hover);
+    --restro-red: var(--apax-red);
+    --restro-red-hover: var(--apax-red-hover);
+    --restro-yellow: var(--apax-yellow);
+    --restro-bg-yellow: var(--apax-bg-yellow);
+    --restro-yellow-hover: var(--apax-yellow-hover);
+    --restro-checkbox: var(--apax-checkbox);
+    --restro-green-dark: var(--apax-green-dark);
+    --restro-border-green-light: var(--apax-border-green-light);
+    --restro-superadmin-widget-bg: var(--apax-superadmin-widget-bg);
+    --restro-superadmin-text-green: var(--apax-superadmin-text-green);
+    --restro-superadmin-text-black: var(--apax-superadmin-text-black);
+}
+
+/* Light Mode (default styles) */
+::-webkit-scrollbar {
+    width: 1px;
+    height: 1px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #88888888;
+    border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #989898;
+}
+
+/* Left Gradient Overlay */
+.custom-scroll-wrapper {
+    position: relative;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    /* Smooth scrolling on iOS */
+}
+
+/* Right Gradient Overlay */
+.custom-scroll-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50px;
+    /* Width of the gradient overlay */
+    height: 100%;
+    background: linear-gradient(to left, var(--scroll-wrapper-start), var(--scroll-wrapper-end));
+    /* Adjust color as needed */
+    z-index: 2;
+    /* Keep it above content */
+    pointer-events: none;
+    /* Ensure it doesn’t block interactions */
+}
+
+
+@layer base {
+    html {
+        font-family: 'Nunito', sans-serif;
+        font-optical-sizing: auto;
+    }
+}
+
+.outline-text {
+    text-shadow:
+        1px 1px 0 #000,
+        -1px -1px 0 #000,
+        1px -1px 0 #000,
+        -1px 1px 0 #000,
+        1px 1px 0 #000;
+}

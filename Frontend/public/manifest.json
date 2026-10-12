@@ -1,0 +1,15 @@
+{
+  "name": "Apax Pos",
+  "short_name": "Apax Pos",
+  "description": "Apax Pos — point of sale for restaurants, cafes, hotels, food trucks, stalls, and food businesses.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ECF1EB",
+  "lang": "en",
+  "scope": "/",
+  "icons": [
+    { "src": "/logo_192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/logo.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
