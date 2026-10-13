@@ -159,23 +159,20 @@ exports.signOut = async (req, res) => {
         res.clearCookie('accessToken', {
             expires: new Date(Date.now() ),
             httpOnly: true,
-            domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-            sameSite: false,
+            sameSite: "none",
             secure: process.env.NODE_ENV == "production",
             path: "/"
         });
         res.clearCookie('refreshToken', {
             expires: new Date(Date.now()),
             httpOnly: true,
-            domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-            sameSite: false,
+            sameSite: "none",
             secure: process.env.NODE_ENV == "production",
             path: "/"
         });
         res.clearCookie('apaxpos__authenticated', {
             expires: new Date(Date.now()),
-            domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-            sameSite: false,
+            sameSite: "none",
             secure: process.env.NODE_ENV == "production",
             path: "/"
         });
@@ -211,8 +208,7 @@ exports.getNewAccessToken = async (req, res) => {
             const cookieOptions = {
                 expires: new Date(Date.now() + parseInt(CONFIG.COOKIE_EXPIRY)),
                 httpOnly: true,
-                domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-                sameSite: false,
+                sameSite: "none",
                 secure: process.env.NODE_ENV == "production",
                 path: "/"
             };
@@ -223,23 +219,20 @@ exports.getNewAccessToken = async (req, res) => {
                     res.clearCookie("accessToken", {
                         expires: new Date(Date.now()),
                         httpOnly: true,
-                        domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-                        sameSite: false,
+                        sameSite: "none",
                         secure: process.env.NODE_ENV == "production",
                         path: "/",
                     });
                     res.clearCookie("refreshToken", {
                         expires: new Date(Date.now()),
                         httpOnly: true,
-                        domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-                        sameSite: false,
+                        sameSite: "none",
                         secure: process.env.NODE_ENV == "production",
                         path: "/",
                     });
                     res.clearCookie("apaxpos__authenticated", {
                         expires: new Date(Date.now()),
-                        domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-                        sameSite: false,
+                        sameSite: "none",
                         secure: process.env.NODE_ENV == "production",
                         path: "/",
                     });
@@ -271,23 +264,20 @@ exports.getNewAccessToken = async (req, res) => {
             res.clearCookie('accessToken', {
                 expires: new Date(Date.now() ),
                 httpOnly: true,
-                domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-                sameSite: false,
+                sameSite: "none",
                 secure: process.env.NODE_ENV == "production",
                 path: "/"
             });
             res.clearCookie('refreshToken', {
                 expires: new Date(Date.now()),
                 httpOnly: true,
-                domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-                sameSite: false,
+                sameSite: "none",
                 secure: process.env.NODE_ENV == "production",
                 path: "/"
             });
             res.clearCookie('apaxpos__authenticated', {
                 expires: new Date(Date.now()),
-                domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-                sameSite: false,
+                sameSite: "none",
                 secure: process.env.NODE_ENV == "production",
                 path: "/"
             });
@@ -489,8 +479,7 @@ exports.cancelSubscription = async (req, res) => {
         const cookieOptions = {
             expires: new Date(Date.now() + parseInt(CONFIG.COOKIE_EXPIRY)),
             httpOnly: true,
-            domain: CONFIG.FRONTEND_DOMAIN_COOKIE,
-            sameSite: false,
+            sameSite: "none",
             secure: process.env.NODE_ENV == "production",
             path: "/"
         };
