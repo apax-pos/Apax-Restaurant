@@ -1,3 +1,4 @@
+import Cookie from "js-cookie";
 import ApiClient from "../helpers/ApiClient";
 import axios from "axios";
 import { API } from "../config/config";
@@ -12,6 +13,7 @@ export async function signIn(username, password) {
       username, password
     });
 
+    Cookie.set("apaxpos__authenticated", "true", { sameSite: "none", secure: true, path: "/", expires: 7 });
     return response;
   } catch (error) {
     throw error;
@@ -26,6 +28,7 @@ export async function signOut() {
 
     clearUserDetailsInLocalStorage();
     clearAccessToken();
+    Cookie.remove("apaxpos__authenticated", { path: "/" });
 
     return response;
   } catch (error) {

@@ -4,6 +4,7 @@ import { API } from "../config/config";
 import { clearUserDetailsInLocalStorage } from "../helpers/UserDetails";
 import { clearAccessToken } from "../helpers/accessToken";
 import useSWR from "swr";
+import Cookie from "js-cookie";
 
 export async function signIn(username, password) {
     axios.defaults.withCredentials = true;
@@ -12,6 +13,7 @@ export async function signIn(username, password) {
             username, password
         });
 
+        Cookie.set("apaxpos__authenticated", "true", { sameSite: "none", secure: true, path: "/", expires: 7 });
         return response;
     } catch (error) {
         throw error;
@@ -38,6 +40,7 @@ export async function signOut() {
 
         clearUserDetailsInLocalStorage();
         clearAccessToken();
+        Cookie.remove("apaxpos__authenticated", { path: "/" });
 
         return response;
     } catch (error) {
