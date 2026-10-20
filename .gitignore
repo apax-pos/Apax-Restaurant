@@ -7,3 +7,13 @@ build
 .DS_Store
 iisnode
 *.zip
+*.tar.gz
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.db
+*.bak
+diag.sh
+diag.txt
+files.txt
+changes.diff

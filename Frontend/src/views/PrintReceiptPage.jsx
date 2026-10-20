@@ -11,6 +11,7 @@ export default function PrintReceiptPage() {
     itemsTotal,
     taxTotal,
     serviceChargeTotal,
+    deliveryChargeTotal,
     payableTotal,
     promotionDiscount,
     appliedPromotions,
@@ -90,7 +91,7 @@ export default function PrintReceiptPage() {
           {addons_ids?.length > 0 && <p className='text-xs'>{t("print_receipt.addons")}:
           {addons_ids.map((addonId, index)=>{
             const addon = addons.find((a)=>a.id==addonId);
-            return addon.title;
+            return addon ? addon.title : "";
           })?.join(", ")}
           </p>}
           {(show_notes == 1 && notes) ? <p className='mb-2 text-xs'>{t("print_receipt.notes")}: {notes}</p>:<></>}
@@ -114,6 +115,12 @@ export default function PrintReceiptPage() {
         <p>{t("print_receipt.service_charge")}: </p>
         <p>{currency}{Number(serviceChargeTotal).toFixed(2)}</p>
       </div>
+      {Number(deliveryChargeTotal) > 0 && (
+        <div className="flex justify-between">
+          <p>Delivery charge: </p>
+          <p>{currency}{Number(deliveryChargeTotal).toFixed(2)}</p>
+        </div>
+      )}
       {(appliedPromotions || []).map((p, i) => (
         <div key={i} className="flex justify-between text-sm">
           <p>Promo: {p.name}</p>

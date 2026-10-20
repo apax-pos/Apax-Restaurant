@@ -226,7 +226,7 @@ exports.getInvoiceOrders = async (req, res) => {
     const invoiceId = req.body.invoiceId;
 
     if (!orderIds || orderIds?.length == 0) {
-      return res.status(400).JSON({
+      return res.status(400).json({
         success: false,
         message: req.__("invalid_request"), // Translate message
       });
@@ -238,6 +238,9 @@ exports.getInvoiceOrders = async (req, res) => {
       ]);
 
     const { kitchenOrders, kitchenOrdersItems, addons } = invoiceOrdersData;
+    if (!invoiceData) {
+      return res.status(404).json({ success: false, message: "Invoice not found" });
+    }
     const {sub_total, tax_total, service_charge_total, total} = invoiceData;
 
     const formattedOrders = kitchenOrders.map((order) => {
@@ -246,14 +249,23 @@ exports.getInvoiceOrders = async (req, res) => {
       );
 
       orderItems.forEach((oi, index) => {
-        const addonsIds = oi?.addons ? JSON.parse(oi?.addons) : null;
+        let addonsIds = null;
+        try {
+          addonsIds = oi?.addons ? JSON.parse(oi.addons) : null;
+        } catch (e) {
+          addonsIds = null;
+        }
+        if (!Array.isArray(addonsIds)) {
+          addonsIds = null;
+          oi.addons = null;
+        }
 
         if (addonsIds) {
           const itemAddons = addonsIds.map((addonId) => {
             const addon = addons.filter((a) => a.id == addonId);
             return addon[0];
           });
-          orderItems[index].addons = [...itemAddons];
+          orderItems[index].addons = itemAddons.filter(Boolean);
         }
       });
 
@@ -268,6 +280,7 @@ exports.getInvoiceOrders = async (req, res) => {
       taxTotal : tax_total,
       serviceChargeTotal : service_charge_total,
       total : total,
+      deliveryChargeTotal: (kitchenOrders || []).reduce((s, o) => s + (Number(o.delivery_charge) || 0), 0),
       orders: formattedOrders,
     });
   } catch (error) {

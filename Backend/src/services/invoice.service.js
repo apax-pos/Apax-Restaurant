@@ -1,5 +1,6 @@
 const { getMySqlPromiseConnection } = require("../config/mysql.db");
 const { toSafeIdList } = require("../utils/validateIds");
+const { tableHasColumn } = require("../utils/sqliteSchema.util");
 
 exports.getInvoicesDB = async (type, from, to, tenantId) => {
   const conn = await getMySqlPromiseConnection();
@@ -148,6 +149,8 @@ exports.getInvoiceOrdersDB = async (orderIds, tenantId) => {
       if (!safeIds) throw new Error("INVALID_ORDER_IDS");
       const orderIdsToFindSummary = safeIds.join(",");
 
+      const hasDeliveryCharge = await tableHasColumn(conn, "orders", "delivery_charge");
+
       const sql = `
       SELECT
         o.id,
@@ -161,7 +164,8 @@ exports.getInvoiceOrdersDB = async (orderIds, tenantId) => {
         st. \`floor\`,
         o.status,
         o.payment_status,
-        o.token_no
+        o.token_no,
+        ${hasDeliveryCharge ? "COALESCE(o.delivery_charge, 0)" : "0"} AS delivery_charge
       FROM
         orders o
         LEFT JOIN customers c ON o.customer_id = c.phone AND c.tenant_id = o.tenant_id
@@ -269,3 +273,4 @@ exports.getInvoiceOrdersDB = async (orderIds, tenantId) => {
         conn.release();
     }
   };
+

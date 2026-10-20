@@ -50,6 +50,53 @@ export default function StaffPage() {
     load();
   };
 
+  const printSlip = (r) => {
+    const st = staff.find((x) => String(x.id) === String(r.staff_id)) || {};
+    const esc = (v) =>
+      String(v == null ? "" : v)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    const row = (k, v) =>
+      "<tr><td class='k'>" + esc(k) + "</td><td class='v'>" + esc(v) + "</td></tr>";
+    const paidOn = r.paid_at ? String(r.paid_at).slice(0, 10) : "-";
+    const html =
+      "<!doctype html><html><head><meta charset='utf-8'><title>Salary Slip</title>" +
+      "<style>" +
+      "body{font-family:Arial,sans-serif;max-width:420px;margin:20px auto;color:#000}" +
+      "h2{text-align:center;margin:0 0 4px}" +
+      "p.sub{text-align:center;margin:0 0 14px;font-size:12px}" +
+      "table{width:100%;border-collapse:collapse}" +
+      "td{padding:6px 4px;border-bottom:1px dashed #999;font-size:14px}" +
+      "td.k{color:#444;width:45%}" +
+      "td.v{text-align:right;font-weight:bold}" +
+      ".tot td{font-size:18px;border-top:2px solid #000;border-bottom:2px solid #000}" +
+      ".sig{display:flex;justify-content:space-between;margin-top:46px;font-size:12px}" +
+      ".sig div{border-top:1px solid #000;width:44%;text-align:center;padding-top:4px}" +
+      "</style></head><body>" +
+      "<h2>SALARY SLIP</h2><p class='sub'>" + esc(r.month_year) + "</p>" +
+      "<table>" +
+      row("Name", r.staff_name) +
+      row("Designation", st.designation || "Staff") +
+      row("Phone", st.phone || "-") +
+      row("Month", r.month_year) +
+      row("Status", r.status) +
+      row("Paid date", paidOn) +
+      "<tr class='tot'><td class='k'>Net salary</td><td class='v'>" + esc(Number(r.amount || 0).toFixed(2)) + "</td></tr>" +
+      "</table>" +
+      "<div class='sig'><div>Employee</div><div>Authorized</div></div>" +
+      "</body></html>";
+    const w = window.open("", "_blank", "width=520,height=720");
+    if (!w) {
+      toast.error("Popup blocked - please allow popups to print the slip");
+      return;
+    }
+    w.document.write(html);
+    w.document.close();
+    w.focus();
+    setTimeout(() => w.print(), 300);
+  };
+
   return (
     <Page>
       <h3 className={apaxPageTitle}>Staff — attendance & salary</h3>
@@ -97,11 +144,16 @@ export default function StaffPage() {
               <span>
                 {r.staff_name}: {r.amount} ({r.status})
               </span>
-              {r.status === "pending" && (
-                <button type="button" className="btn btn-xs btn-success" onClick={() => markSalaryPaid(r.id).then(load)}>
-                  Mark paid
+              <span className="flex gap-1">
+                <button type="button" className="btn btn-xs" onClick={() => printSlip(r)}>
+                  Slip
                 </button>
-              )}
+                {r.status === "pending" && (
+                  <button type="button" className="btn btn-xs btn-success" onClick={() => markSalaryPaid(r.id).then(load)}>
+                    Mark paid
+                  </button>
+                )}
+              </span>
             </div>
           ))}
         </div>

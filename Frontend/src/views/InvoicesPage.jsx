@@ -156,6 +156,7 @@ export default function InvoicesPage() {
           subtotal,
           taxTotal,
           serviceChargeTotal,
+          deliveryChargeTotal,
           total,
           orders: ordersArr
         } = res.data;
@@ -174,13 +175,13 @@ export default function InvoicesPage() {
             orders.push({
               ...i,
               title: i.item_title,
-              addons_ids: i?.addons?.length > 0 ? i?.addons?.map((a)=>a.id):[],
+              addons_ids: i?.addons?.length > 0 ? i?.addons?.filter(Boolean).map((a)=>a.id):[],
               variant: variant
             });
           })
         }
 
-        const {customer_id, customer_type, customer_name, date, delivery_type} = ordersArr;
+        const {customer_id, customer_type, customer_name, date, delivery_type} = ordersArr[0] || {};
 
         let paymentMethodText;
         if(payment_type_id) {
@@ -196,6 +197,7 @@ export default function InvoicesPage() {
           taxTotal: taxTotal,
           serviceChargeTotal:serviceChargeTotal,
           payableTotal: total,
+          deliveryChargeTotal: deliveryChargeTotal,
           tokenNo: tokens,
           orderId: orderIds,
           paymentMethod: paymentMethodText
@@ -222,6 +224,7 @@ export default function InvoicesPage() {
           subtotal,
           taxTotal,
           serviceChargeTotal,
+          deliveryChargeTotal,
           total,
           orders: ordersArr
         } = res.data;
@@ -240,13 +243,13 @@ export default function InvoicesPage() {
             orders.push({
               ...i,
               title: i.item_title,
-              addons_ids: i?.addons?.length > 0 ? i?.addons?.map((a)=>a.id):[],
+              addons_ids: i?.addons?.length > 0 ? i?.addons?.filter(Boolean).map((a)=>a.id):[],
               variant: variant
             });
           })
         }
 
-        const {customer_id, customer_type, customer_name, date, delivery_type} = ordersArr;
+        const {customer_id, customer_type, customer_name, date, delivery_type} = ordersArr[0] || {};
 
         let paymentMethodText;
         if(payment_type_id) {
@@ -262,6 +265,7 @@ export default function InvoicesPage() {
           taxTotal: taxTotal,
           serviceChargeTotal:serviceChargeTotal,
           payableTotal: total,
+          deliveryChargeTotal: deliveryChargeTotal,
           tokenNo: tokens,
           orderId: orderIds,
           paymentMethod: paymentMethodText

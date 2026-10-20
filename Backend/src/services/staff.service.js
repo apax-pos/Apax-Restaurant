@@ -181,14 +181,49 @@ exports.generateMonthlySalaryDB = async (tenantId, monthYear) => {
   }
 };
 
-exports.markSalaryPaidDB = async (tenantId, recordId) => {
+exports.markSalaryPaidDB = async (tenantId, recordId, username) => {
   const conn = await getMySqlPromiseConnection();
   try {
     const now = new Date().toISOString().slice(0, 19).replace("T", " ");
+    const [recRows] = await conn.query(
+      "SELECT r.id, r.amount, r.month_year, r.status, s.name AS staff_name " +
+        "FROM staff_salary_records r " +
+        "LEFT JOIN staff_profiles s ON s.id = r.staff_id AND s.tenant_id = r.tenant_id " +
+        "WHERE r.id = ? AND r.tenant_id = ?",
+      [recordId, tenantId]
+    );
+    const rec = recRows && recRows[0];
+    if (!rec) return;
+    if (rec.status === "paid") return;
+
     await conn.query(
-      `UPDATE staff_salary_records SET status = 'paid', paid_at = ? WHERE id = ? AND tenant_id = ?`,
+      "UPDATE staff_salary_records SET status = 'paid', paid_at = ? WHERE id = ? AND tenant_id = ?",
       [now, recordId, tenantId]
     );
+
+    // salary_expense_sync: paid salary also becomes an expense (shows in Expenses + net profit)
+    const marker = "salary_record:" + recordId;
+    const [existing] = await conn.query(
+      "SELECT id FROM expenses WHERE tenant_id = ? AND notes = ? LIMIT 1",
+      [tenantId, marker]
+    );
+    if (!(existing && existing[0])) {
+      const expId = await allocateNextId(conn, "expenses");
+      await conn.query(
+        "INSERT INTO expenses (id, tenant_id, title, amount, category, expense_date, notes, created_by) " +
+          "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+        [
+          expId,
+          tenantId,
+          "Salary - " + (rec.staff_name || "Staff") + " (" + rec.month_year + ")",
+          Number(rec.amount) || 0,
+          "Salary",
+          now,
+          marker,
+          username || null,
+        ]
+      );
+    }
   } finally {
     conn.release();
   }
